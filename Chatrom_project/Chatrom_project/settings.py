@@ -31,8 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # 'daphne',
-    # 'channels',
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -71,7 +71,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Chatrom_project.wsgi.application'
-# ASGI_APPLICATION = 'Chatrom_project.asgi.application'
+ASGI_APPLICATION = 'Chatrom_project.asgi.application'
+
+
+CHANNEL_LAYERS = {
+    "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"},
+}
+
 
 
 # Database
