@@ -1,53 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <title>Messages</title>
     <!-- load static -->
     {% load static %}
     <!-- <link rel="stylesheet" href="{% static 'style.css' %}"> -->
     <!-- link to h=css file -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
+
 <body>
     <div class="parent">
         <div class="child-2">
-            <center><h2>Chats</h2></center><hr>
-
-        <!-- New section for connected users -->
-            <div class="connected-users">
-                <h3>Connected Users</h3>
-                <ul id="userList"></ul>
-            </div>
-
+            <center>
+                <h2>Chats</h2>
+            </center>
+            <hr>
             <div class="chat-body-parent">
                 <div class="chat-body" id="tasks">
                     <div class="message" id="chatContainer">
                         {% for i in messages %}
-                            {% if i.sender != user %}
-                                <div class="receive">
-                                    <p style="color: #000;"> {{i.message}}<strong>-{{i.sender}}</strong></p>
-                                </div>
-                            {% else %}
-                                <div class="send">
-                                    <p style="color: #000;">{{i.message}}</p>
-                                </div>
-                            {% endif %}
-                        {% endfor %}    
+                        {% if i.sender != user %}
+                        <div class="receive">
+                            <p style="color: #000;"> {{i.message}}<strong>-{{i.sender}}</strong></p>
+                        </div>
+                        {% else %}
+                        <div class="send">
+                            <p style="color: #000;">{{i.message}}</p>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
                     </div>
                     <div class="form">
                         <form action="" id="message-form" method="POST">
                             {% csrf_token %}
-                            <textarea id="msg" cols="30" name="message" rows="10" placeholder="Enter your message" required></textarea>
+                            <textarea id="msg" cols="30" name="message" rows="10" placeholder="Enter your message"
+                                required></textarea>
                             <button class="submit" type="submit">Send</button>
-                        </form>    
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+                <!-- New section for connected users -->
+                <div class="connected-users">
+                    <h3>Connected Users</h3>
+                    <ul id="userList"></ul>
+                </div>
     </div>
 </body>
 <script>
@@ -69,7 +75,7 @@
     };
 
     // Form submit listener
-    document.getElementById('message-form').addEventListener('submit', function(event){
+    document.getElementById('message-form').addEventListener('submit', function (event) {
         event.preventDefault();
         const message = document.getElementById('msg').value;
         socket.send(
@@ -81,13 +87,13 @@
         );
     });
 
-    
-        // Response from consumer on the server
-        socket.addEventListener("message", (event) => {
-            const data = JSON.parse(event.data);
+
+    // Response from consumer on the server
+    socket.addEventListener("message", (event) => {
+        const data = JSON.parse(event.data);
         if (data.type === 'user_list') {
             updateUserList(data.users);
-        } else{
+        } else {
             const messageData = JSON.parse(event.data)['message'];
             console.log(messageData);
 
@@ -95,7 +101,7 @@
             var message = messageData['message'];
 
             // Empty the message input field after the message has been sent
-            if (sender == '{{user}}'){
+            if (sender == '{{user}}') {
                 document.getElementById('msg').value = '';
             }
 
@@ -123,16 +129,15 @@
 
 </script>
 <style>
-
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
     }
 
 
     .parent {
-      background-color: white;
+        background-color: white;
     }
 
     nav {
@@ -163,10 +168,10 @@
     .parent {
         height: 100vh;
         display: flex;
-        justify-content: center;       
-        background-position: center; 
-        background-repeat: no-repeat; 
-        background-size: cover; 
+        justify-content: center;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
         align-items: center;
         width: 100%;
     }
@@ -189,14 +194,14 @@
     }
 
     .profile-pic {
-        width: 15%;        
+        width: 15%;
         border-radius: 50px;
         background-color: #fff;
     }
 
     .profile-pic img {
-        width:100%;
-        height:100%;
+        width: 100%;
+        height: 100%;
         border-radius: 50%;
         object-fit: cover;
     }
@@ -233,23 +238,26 @@
         align-items: center;
     }
 
-    .chat-body, .message {
+    .chat-body,
+    .message {
         width: 100%;
         background-color: rgb(32, 30, 37);
         border-radius: 10px;
         color: white;
-        display: flex;      
+        display: flex;
         padding: 10px;
         flex-direction: column;
     }
 
     .message {
-        max-height: 400px;  /* Or whatever height value you see fit */
+        max-height: 400px;
+        /* Or whatever height value you see fit */
         overflow-y: auto;
     }
 
-    .chat-body .message .receive, .send {
-        background-color:white;
+    .chat-body .message .receive,
+    .send {
+        background-color: white;
         max-width: 400px;
         border-radius: 10px;
         padding: 10px;
@@ -290,16 +298,45 @@
     form button {
         width: 25%;
         padding: 10px;
-        background-color:rgb(167, 210, 88);
+        background-color: rgb(167, 210, 88);
         border-radius: 5px;
         border: none;
         color: #000;
     }
+
     @media only screen and (max-width: 600px) {
-    .child-2 {
+        .child-2 {
+            width: 100%;
+        }
+    }
+
+
+    .connected-users {
+    background-color: rgb(32, 30, 37);
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    }
+    .connected-users h3 {
+        margin-top: 0;
+        background-color: white;
+        border-radius: 10px;
+        color: black;
+        padding: 10px;
         width: 100%;
     }
-}
-
+    #userList {
+        list-style-type: none;
+        padding: 0;
+    }
+    #userList li {
+        margin-top: 15px;
+    }
 </style>
+
 </html>
