@@ -11,14 +11,14 @@ Follow these steps to set up and run the project on your local machine.
 ### Installation
 1. Clone the repository 
    OR download and extract the ZIP file.
-
-2. Navigate to the project directory:
-   <button class="copy-button" data-clipboard-target="#cd-command"></button>
-   <pre><code id="cd-command">cd .\Chatrom_project\</code></pre>
-
-3. Install the required dependencies:
-   <button class="copy-button" data-clipboard-target="#pip-install-command">Copy</button>
-   <pre><code id="pip-install-command">pip install -r requirements.txt</code></pre>
+2. Open a terminal window in the project root directory.
+3. Create a virtual environment and install the project dependencies:
+    ```bash
+      python -m venv env
+      .\env\Scripts\activate
+      pip install -r requirements.txt
+      cd .\Chatrom_project\
+   ```
 
 ### Running the Application
 1. Apply database migrations:
@@ -39,6 +39,11 @@ Follow these steps to set up and run the project on your local machine.
 2. Start chatting in real-time with other users in the same room.
 3. You can see the list of connected users in the room.
 
+## Testing
+1. Run the Server.
+2. Open multiple browsers.
+3. Enter Same room name with different User Names
+
 ## Features
 - Real-time messaging
 - Multiple chat rooms
@@ -50,3 +55,11 @@ Follow these steps to set up and run the project on your local machine.
 
 ## Made By 
 - Amit Kumar
+
+## Screenshopts 
+![image](https://github.com/user-attachments/assets/2c166837-a5f8-46bc-9553-ea90f27de7bb)
+
+Inside the Room
+![image](https://github.com/user-attachments/assets/cc2b84b1-2532-4b07-91ea-a233a3853470)
+
+
