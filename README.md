@@ -53,6 +53,7 @@ Follow these steps to set up and run the project on your local machine.
 - Enter the Chat room with your username and the chatroom created by other device.
 - If the Chat room with that name already exists then the user will be joined in that chat-room. But if the room with that name is not present then a new room will be created and others can join the room.
 - The moment someone joins the room the connected users list will be updated in real time same will happen if someone leaves the room.
+- I have not added Create user functionality Due to time constraint Rather the user gets created as soon as use Enter the user name and hit submit on the landing screen.
 
 ## Built With
 - [Django](https://www.djangoproject.com/) - The web framework used
