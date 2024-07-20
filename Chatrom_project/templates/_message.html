@@ -16,6 +16,13 @@
     <div class="parent">
         <div class="child-2">
             <center><h2>Chats</h2></center><hr>
+
+        <!-- New section for connected users -->
+            <div class="connected-users">
+                <h3>Connected Users</h3>
+                <ul id="userList"></ul>
+            </div>
+
             <div class="chat-body-parent">
                 <div class="chat-body" id="tasks">
                     <div class="message" id="chatContainer">
@@ -46,19 +53,19 @@
 <script>
     // Determine the WebSocket protocol based on the application's URL
     const websocketProtocol = window.location.protocol === "https:" ? "wss" : "ws";
-    const wsEndpoint = `${websocketProtocol}://${window.location.host}/ws/notification/{{room_name}}/`;
+    const wsEndpoint = `${websocketProtocol}://${window.location.host}/ws/notification/{{room_name}}/{{user}}/`;
 
     // Create a new WebSocket connection
     const socket = new WebSocket(wsEndpoint);
 
     // Successful connection event
     socket.onopen = (event) => {
-        alert("WebSocket connection opened!");
+        console.log("WebSocket connection opened!");
     };
 
     // Socket disconnect event
     socket.onclose = (event) => {
-        alert("WebSocket connection closed!");
+        console.log("WebSocket connection closed!");
     };
 
     // Form submit listener
@@ -77,26 +84,41 @@
     
         // Response from consumer on the server
         socket.addEventListener("message", (event) => {
-        const messageData = JSON.parse(event.data)['message'];
-        console.log(messageData);
+            const data = JSON.parse(event.data);
+        if (data.type === 'user_list') {
+            updateUserList(data.users);
+        } else{
+            const messageData = JSON.parse(event.data)['message'];
+            console.log(messageData);
 
-        var sender = messageData['sender'];
-        var message = messageData['message'];
+            var sender = messageData['sender'];
+            var message = messageData['message'];
 
-        // Empty the message input field after the message has been sent
-        if (sender == '{{user}}'){
-            document.getElementById('msg').value = '';
+            // Empty the message input field after the message has been sent
+            if (sender == '{{user}}'){
+                document.getElementById('msg').value = '';
+            }
+
+            // Append the message to the chatbox
+            var messageDiv = document.querySelector('.message');
+            if (sender != '{{user}}') { // Assuming you have a variable `currentUser` to hold the current user's name
+                messageDiv.innerHTML += '<div class="receive"><p style="color: #000;">' + message + '<strong>-' + sender + '</strong></p></div>';
+            } else {
+                messageDiv.innerHTML += '<div class="send"><p style="color: #000;">' + message + '</p></div>';
+            }
+            scrollToBottom();
         }
-
-        // Append the message to the chatbox
-        var messageDiv = document.querySelector('.message');
-        if (sender != '{{user}}') { // Assuming you have a variable `currentUser` to hold the current user's name
-            messageDiv.innerHTML += '<div class="receive"><p style="color: #000;">' + message + '<strong>-' + sender + '</strong></p></div>';
-        } else {
-            messageDiv.innerHTML += '<div class="send"><p style="color: #000;">' + message + '</p></div>';
-        }
-        scrollToBottom();
     });
+
+    function updateUserList(users) {
+        const userList = document.getElementById('userList');
+        userList.innerHTML = '';
+        users.forEach(user => {
+            const li = document.createElement('li');
+            li.textContent = user;
+            userList.appendChild(li);
+        });
+    }
 
 
 </script>
